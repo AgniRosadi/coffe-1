@@ -88,7 +88,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="<?php echo base_url('pengelola/menu') ?>" class="nav-link <?php echo $side == 'kegiatan' ? 'active' : '' ?>">
+              <a href="<?php echo base_url('pengelola/kelola_menu') ?>" class="nav-link <?php echo $side == 'kegiatan' ? 'active' : '' ?>">
                 <i class="nav-icon fas fa-tag"></i>
                 <p>
                   Kelola Menu

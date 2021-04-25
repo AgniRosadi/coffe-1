@@ -39,7 +39,6 @@ class Pengelola extends CI_Controller {
 		$nama_cafe = $this->input->post('nama_cafe');
 		$nama_pemilik = $this->input->post('nama_pemilik');
 		$deskripsi = $this->input->post('deskripsi');
-
 		$query = $this->db->query("UPDATE cafe set nama_cafe = '$nama_cafe',nama_pemilik = '$nama_pemilik',deskripsi = '$deskripsi' where id_cafe = '$id_cafe'");
 
 		if($query){
@@ -50,6 +49,78 @@ class Pengelola extends CI_Controller {
 			header('location:'.base_url().'pengelola/kelolacafe');
 		}
 	}
+
+	
+	public function kelola_menu(){
+		$id_menu = $this->session->userdata('id_cafe');
+		$data['menu'] = $this->db->query("SELECT * FROM menu")->result();
+
+		// $data['menu'] = $this->db->query("SELECT * FROM cafe s join menu m on m.id_menu = s.id_cafe  WHERE m.id_menu = '$id_menu'")->result_array();
+		$data['side'] = 'kelola';
+		$this->load->view('admin/template/header',$data);
+		$this->load->view('pemilik/kelola_menu');
+		$this->load->view('admin/template/footer');
+
+	}
+
+	public function tambah_menu(){
+		$nama_menu = $this->input->post('nama_menu');
+		$harga = $this->input->post('harga');
+ 		$foto	= $_FILES['foto']['name'];
+ 		if($foto = ''){}else{
+ 			$config ['upload_path']='./upload';
+ 			$config ['allowed_types']='jpg|jpef|gif|png';
+
+ 			$this->load->library('upload',$config);
+ 			if(!$this->upload->do_upload('foto')){
+ 				echo "file Gagal Upload!!!";
+ 			}else{
+ 				$foto=$this->upload->data('file_name');
+ 			}
+ 		}
+ 		$data = array(
+ 				'nama_menu' => $nama_menu,
+ 				'harga' => $harga,
+				'foto' => $foto
+			
+			);
+			$this->db->insert('menu', $data);
+	}
+	public function edit_menu(){
+		$id_menu = $this->session->userdata('id_menu');
+		$nama_menu = $this->input->post('nama_menu');
+		$harga = $this->input->post('harga');
+		$foto = $this->input->post('foto');
+		$query = $this->db->query("UPDATE menu set nama_menu = '$nama_menu',harga = '$harga',foto = '$foto' where id_menu = '$id_menu'");
+
+		if($query){
+			$this->session->set_flashdata('message', '<div class="alert alert-success text-center" role="alert">Data berhasil diubah</div>');
+			header('location:'.base_url().'pengelola/kelola_menu');
+		}else{
+			$this->session->set_flashdata('message', '<div class="alert alert-dangger text-center" role="alert">Data gagal diubah</div>');
+			header('location:'.base_url().'pengelola/kelola_menu');
+		}
+	}
+	public function hapus_menu($id_menu){
+		$query = $this->db->query("SELECT * FROM menu where id_menu = $id_menu")->row_array();
+
+		$foto = $query['foto'];
+		
+		unlink(FCPATH . 'upload/'.$foto);
+		
+
+		$query = $this->db->query("DELETE from menu where id_menu = $id_menu");
+
+		if($query){
+			$this->session->set_flashdata('message', '<div class="alert alert-success text-center" role="alert">menu Berhasil Dihapus</div>');
+			redirect('pengelola/kelola_menu');
+		}else{
+			$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">menu gagal dihapus</div>');
+			redirect('pengelola/kelola_menu');
+		}
+	}
+
+	
 
 	public function ubahPassword(){
 
