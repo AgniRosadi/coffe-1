@@ -11,6 +11,7 @@ class User extends CI_Controller {
 	public function index()
 	{
 		$data['nav'] ='home';
+	
         $this->load->view('user/template/header', $data);
 		$this->load->view('user/home', $data);
         $this->load->view('user/template/footer');
@@ -145,6 +146,7 @@ class User extends CI_Controller {
 		public function menu()
 	{
 		$data['nav'] ='Menu';
+		$data['menu'] = $this->db->query("SELECT * FROM menu")->result();
         $this->load->view('user/template/header', $data);
 		$this->load->view('user/menu');
         $this->load->view('user/template/footer');

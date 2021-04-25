@@ -88,57 +88,27 @@
     <section class="ftco-section">
     	<div class="container">
         <div class="row">
-        	<div class="col-md-6 mb-5 pb-3">
-        		<h3 class="mb-5 heading-pricing ftco-animate">Starter</h3>
+        	<div class="row">
+        		<h3 class="mb-5 heading-pricing ftco-animate">Menu</h3>
+			<?php
+				$no = 0;
+				foreach ($menu as $key => $value) {
+					$no++;
+					?>
         		<div class="pricing-entry d-flex ftco-animate">
 					<a href="<?= base_url()?>user/detail_menu">
-        			<div class="img" style="background-image: url(<?= base_url('assets/')?>images/dish-1.jpg);"></div></a>
+        			<div class="img" style="background-image: url(<?php echo base_url('upload/'.$value->foto) ?>"></div></a>
         			<div class="desc pl-3">
 	        			<div class="d-flex text align-items-center">
-	        				<h3><span>Cornish - Mackerel</span></h3>
-	        				<span class="price">$20.00</span>
+	        				<h3><span><?= $value->nama_menu ?></span></h3>
+	        				<span class="price"><?= $value->harga?></span>
 	        			</div>
 	        			<div class="d-block">
 	        				<p>A small river named Duden flows by their place and supplies</p>
 	        			</div>
         			</div>
         		</div>
-        		<div class="pricing-entry d-flex ftco-animate">
-        			<div class="img" style="background-image: url(<?= base_url('assets/')?>images/dish-2.jpg);"></div>
-        			<div class="desc pl-3">
-	        			<div class="d-flex text align-items-center">
-	        				<h3><span>Roasted Steak</span></h3>
-	        				<span class="price">$29.00</span>
-	        			</div>
-	        			<div class="d-block">
-	        				<p>A small river named Duden flows by their place and supplies</p>
-	        			</div>
-	        		</div>
-        		</div>
-        		<div class="pricing-entry d-flex ftco-animate">
-        			<div class="img" style="background-image: url(<?= base_url('assets/')?>images/dish-3.jpg);"></div>
-        			<div class="desc pl-3">
-	        			<div class="d-flex text align-items-center">
-	        				<h3><span>Seasonal Soup</span></h3>
-	        				<span class="price">$20.00</span>
-	        			</div>
-	        			<div class="d-block">
-	        				<p>A small river named Duden flows by their place and supplies</p>
-	        			</div>
-	        		</div>
-        		</div>
-        		<div class="pricing-entry d-flex ftco-animate">
-        			<div class="img" style="background-image: url(<?= base_url('assets/')?>images/dish-4.jpg);"></div>
-        			<div class="desc pl-3">
-	        			<div class="d-flex text align-items-center">
-	        				<h3><span>Chicken Curry</span></h3>
-	        				<span class="price">$20.00</span>
-	        			</div>
-	        			<div class="d-block">
-	        				<p>A small river named Duden flows by their place and supplies</p>
-	        			</div>
-	        		</div>
-        		</div>
+        		<?php  } ?>
         	</div>
 
         	<div class="col-md-6 mb-5 pb-3">
@@ -297,6 +267,7 @@
         		</div>
         	</div>
         </div>
+	
     	</div>
     </section>
 

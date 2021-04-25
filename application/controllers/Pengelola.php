@@ -85,6 +85,13 @@ class Pengelola extends CI_Controller {
 			
 			);
 			$this->db->insert('menu', $data);
+			if($data){
+				$this->session->set_flashdata('message', '<div class="alert alert-success text-center" role="alert">Menu Berhasil Ditambahkan</div>');
+				header('location:'.base_url().'pengelola/kelola_menu');
+			}else{
+				$this->session->set_flashdata('message', '<div class="alert alert-dangger text-center" role="alert">Data gagal diubah</div>');
+				header('location:'.base_url().'pengelola/kelola_menu');
+			}
 	}
 	public function edit_menu(){
 		$id_menu = $this->session->userdata('id_menu');
