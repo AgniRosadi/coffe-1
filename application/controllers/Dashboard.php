@@ -41,6 +41,15 @@ class Dashboard extends CI_Controller {
 		$this->load->view('admin/kelolaCafe');
 		$this->load->view('admin/template/footer');
 	}
+
+	public function detailCafe($id_cafe){
+		$data['side'] = 'detailCafe';
+		$data['kelola'] = $this->db->query("SELECT * FROM cafe c join kelurahan k on k.id_kelurahan = c.id_kelurahan join kecamatan kc on k.id_kecamatan = kc.id_kecamatan where c.id_cafe = '$id_cafe'")->row_array();
+		$this->load->view('admin/template/header',$data);
+		$this->load->view('admin/detailCafe');
+		$this->load->view('admin/template/footer');
+	}
+	
 	public function pengajuanDetail($id_cafe){
 		$data['side'] = 'pengajuan';
 		$data['cafe'] = $this->db->query("SELECT * FROM cafe s join kelurahan k on k.id_kelurahan = s.id_kelurahan join kecamatan kc on k.id_kecamatan = kc.id_kecamatan where s.id_cafe = '$id_cafe'")->row_array();
