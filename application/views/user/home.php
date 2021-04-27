@@ -75,8 +75,18 @@
     				<div class="heading-section text-md-center ftco-animate">
 	          
 	            <h2 class="mb-4">Cari & Temukan</h2>
-	            <p class="mb-4">Temukan Lokasi Kedai Kopi Terdekat yang Anda Inginkan Melalui Sistem Pemetaan Kedai Kopi Di Kabupaten Batang Dengan Mudah.</p>
-	            <p><a href="#" class="btn btn-primary btn-outline-primary px-4 py-3">View Full Menu</a></p>
+				<section class="blog_area section-padding" >
+     
+				<select class="form-control" id="pilihKec">
+                    <option style="background-color: #000 !important;" value="">--Pilih Kecamatan--</option>
+                  <?php 
+                  $no=0;
+                  foreach ($kecamatan as $key => $value) {
+                    ?>
+                  <option style="background-color: #000 !important;" value="<?php echo $value->id_kecamatan ?>"><?php echo $value->nama_kecamatan ?></option>
+                <?php } ?>
+                </select>
+    </section>
 	          </div>   			
     		</div>
     	</div>

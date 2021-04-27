@@ -11,7 +11,7 @@ class User extends CI_Controller {
 	public function index()
 	{
 		$data['nav'] ='home';
-	
+		$data['kecamatan'] = $this->db->query("SELECT * FROM kecamatan")->result();
         $this->load->view('user/template/header', $data);
 		$this->load->view('user/home', $data);
         $this->load->view('user/template/footer');
