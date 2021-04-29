@@ -73,7 +73,6 @@
 <script src="<?= base_url('assets/');?>js/jquery.timepicker.min.js"></script>
 <script src="<?= base_url('assets/');?>js/scrollax.min.js"></script>
 <script src="<?= base_url('assets/');?>js/main.js"></script>
-
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvtEWZ71MgdB_u_n1p0PEh7VTKcEpM6KE&callback=initMap">
 </script>
 
@@ -231,7 +230,7 @@ function addMarker(nama, location, icon, contentString) {
         map: map,
         title: nama,
         animation: google.maps.Animation,
-        icon: '<?php echo base_url('upload/icons/') ?>' + icon
+        icon: '<?php echo base_url('upload/icons/3.png') ?>'
     });
     markers.push(marker);
     marker.addListener("click", () => {
