@@ -169,5 +169,19 @@ class User extends CI_Controller {
 			echo json_encode($output);
 		}
 	}
+	public function viewmarker($nama_kecamatan)
+	{
+		$nama = $nama_kecamatan;
+		
+		if($nama == 'k'){
+			$data = $this->db->query("SELECT * FROM cafe s join kelurahan k on k.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = k.id_kecamatan where s.status = 2")->result();
+		}
+		else{
+			$data = $this->db->query("SELECT * FROM cafe s join kelurahan k on k.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = k.id_kecamatan where kc.id_kecamatan = $nama and s.status = 2")->result();
+		}
+
+		echo json_encode($data);
+	}
+
 	
 }
