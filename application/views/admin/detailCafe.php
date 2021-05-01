@@ -36,7 +36,7 @@
                                              <hr>
                                          </div>
                                          <hr>
-                                         <strong> Nama Sanggar</strong>
+                                         <strong> Nama Coffe</strong>
 
                                          <p class="text-muted">
                                              <?php echo $kelola['nama_cafe'] ?>
@@ -59,12 +59,7 @@
 
                                          <hr>
 
-                                         <strong>Kategori</strong>
-
-
-                                         <hr>
-
-                                         <strong> Nama Ketua</strong>
+                                         <strong> Nama Pemilik</strong>
 
                                          <p class="text-muted"><?php echo $kelola['nama_pemilik'] ?></p>
                                          <hr>
@@ -73,7 +68,7 @@
 
                                          <p class="text-muted"><?php echo $kelola['email_pemilik'] ?></p>
                                          <hr>
-                                         <strong>Foto Ketua</strong></br>
+                                         <strong>Foto Pemilik</strong></br>
 
                                          <img style="height: 100px; width: 100px" class="img-circle"
                                              src="<?= base_url('upload/cafe/') ?><?php echo $kelola['foto'] ?>"

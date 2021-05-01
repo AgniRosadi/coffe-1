@@ -12,7 +12,12 @@ class User extends CI_Controller
 	public function index()
 	{
 		$data['nav'] = 'home';
+		//$data['cafe'] = $this->db->query("SELECT COUNT(id_cafe) as jumlah_cafe from cafe where id_kecamatan = $id_kec")->row_array();
+		$data['cafe'] = $this->db->query("SELECT COUNT(id_cafe) as jumlah_cafe from cafe")->row_array();
+		$data['menu'] = $this->db->query("SELECT count(id_menu) as jumlah_menu from menu")->row_array();
 		$data['kecamatan'] = $this->db->query("SELECT * FROM kecamatan")->result();
+		$data['kec'] = $this->db->query("SELECT count(id_kecamatan) as jumlah_kecamatan FROM kecamatan")->row_array();
+		$data['kelurahan'] = $this->db->query("SELECT count(id_kelurahan) as jumlah_kelurahan FROM kelurahan")->row_array();
 		$this->load->view('user/template/header', $data);
 		$this->load->view('user/home', $data);
 		$this->load->view('user/template/footer');
@@ -151,14 +156,7 @@ class User extends CI_Controller
 		}
 	}
 
-	public function list_cafe()
-	{
-		$data['cafe'] = $this->db->query("SELECT * FROM cafe c join kelurahan k on k.id_kelurahan = c.id_kelurahan join kecamatan kc on kc.id_kecamatan = k.id_kecamatan where c.status = 2")->result();
-		$data['nav'] = 'List Cafe';
-		$this->load->view('user/template/header', $data);
-		$this->load->view('user/list_cafe');
-		$this->load->view('user/template/footer');
-	}
+
 	public function detail_menu()
 	{
 		$this->load->view('user/template/header');
@@ -232,5 +230,15 @@ class User extends CI_Controller
 		}
 
 		echo json_encode($data);
+	}
+
+
+	public function list_cafe()
+	{
+		$data['cafe'] = $this->db->query("SELECT * FROM cafe c join kelurahan k on k.id_kelurahan = c.id_kelurahan join kecamatan kc on kc.id_kecamatan = k.id_kecamatan where c.status = 2")->result();
+		//$data['menu'] = $this->db->query("SELECT count(id_menu) as jumlah_menu from menu where id_cafe = $id_cafe")->row_array();	$data['nav'] = 'List Cafe';
+		$this->load->view('user/template/header', $data);
+		$this->load->view('user/list_cafe');
+		$this->load->view('user/template/footer');
 	}
 }
