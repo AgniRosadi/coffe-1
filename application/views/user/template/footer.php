@@ -73,7 +73,6 @@
 <script src="<?= base_url('assets/');?>js/jquery.timepicker.min.js"></script>
 <script src="<?= base_url('assets/');?>js/scrollax.min.js"></script>
 <script src="<?= base_url('assets/');?>js/main.js"></script>
-
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvtEWZ71MgdB_u_n1p0PEh7VTKcEpM6KE&callback=initMap">
 </script>
 
