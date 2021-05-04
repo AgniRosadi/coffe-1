@@ -231,7 +231,7 @@ function addMarker(nama, location, icon, contentString) {
         map: map,
         title: nama,
         animation: google.maps.Animation,
-        icon: '<?php echo base_url('upload/icons/') ?>' + icon
+        icon: '<?php echo base_url('upload/icons/3.png') ?>'
     });
     markers.push(marker);
     marker.addListener("click", () => {

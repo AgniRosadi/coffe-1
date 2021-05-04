@@ -1,54 +1,56 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class User extends CI_Controller {
+class User extends CI_Controller
+{
 	public function __construct()
 	{
 		parent::__construct();
-
+		$this->load->library('form_validation');
 	}
 
 	public function index()
 	{
-		$data['nav'] ='home';
+		$data['nav'] = 'home';
 		$data['kecamatan'] = $this->db->query("SELECT * FROM kecamatan")->result();
-        $this->load->view('user/template/header', $data);
+		$this->load->view('user/template/header', $data);
 		$this->load->view('user/home', $data);
-        $this->load->view('user/template/footer');
+		$this->load->view('user/template/footer');
 	}
 	public function pengajuan()
 	{
-		$data['nav'] ='Pengajuan';
-        $this->load->view('user/template/header', $data);
+		$data['nav'] = 'Pengajuan';
+		$this->load->view('user/template/header', $data);
 		$this->load->view('user/pengajuan');
-        $this->load->view('user/template/footer');
+		$this->load->view('user/template/footer');
 	}
 	public function form_pengajuan()
 	{
 		$que = $this->db->query("SELECT id_cafe from cafe order by id_cafe desc limit 1");
 
-		if($que->num_rows() > 0){
+		if ($que->num_rows() > 0) {
 			$dt = $que->row_array();
-			$kode=intval($dt['id_cafe'])+1;
-		}else{
+			$kode = intval($dt['id_cafe']) + 1;
+		} else {
 			$kode = 1;
 		}
 
-		$kode_max = str_pad($kode,6,"0",STR_PAD_LEFT);
-		$kode_jadi = "cafe-".$kode_max;
+		$kode_max = str_pad($kode, 6, "0", STR_PAD_LEFT);
+		$kode_jadi = "cafe-" . $kode_max;
 
 		$data['kode'] = $kode_jadi;
 
 		$data['kecamatan'] = $this->db->query("SELECT * FROM kecamatan")->result();
 
-		$data['nav'] ='Form Pengajuan';
-        $this->load->view('user/template/header', $data);
+		$data['nav'] = 'Form Pengajuan';
+		$this->load->view('user/template/header', $data);
 		$this->load->view('user/form_pengajuan');
-        $this->load->view('user/template/footer');
+		$this->load->view('user/template/footer');
 	}
 
-	public function insertPengajuan(){
-		if(!empty($_FILES['ktp']['name'])& !empty($_FILES['foto']['name'])){
+	public function insertPengajuan()
+	{
+		if (!empty($_FILES['ktp']['name']) & !empty($_FILES['foto']['name'])) {
 
 			$email = $this->input->post('email');
 
@@ -58,23 +60,23 @@ class User extends CI_Controller {
 			$queryEmail = $this->db->query("SELECT * FROM cafe WHERE email_pemilik = '$email'")->num_rows();
 			$queryNik = $this->db->query("SELECT * FROM cafe WHERE nik = '$nik'")->num_rows();
 
-			if($queryEmail > 0){
+			if ($queryEmail > 0) {
 				$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">email sudah terdaftar</div>');
-				header('location:'.base_url().'user/form_pengajuan');
-			}else{
-				if($queryNik > 0){
+				header('location:' . base_url() . 'user/form_pengajuan');
+			} else {
+				if ($queryNik > 0) {
 					$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">nik sudah terdaftar</div>');
-					header('location:'.base_url().'user/form_pengajuan');
-				}else{
-						$config['upload_path'] = 'upload/cafe';
-            //restrict uploads to this mime types
+					header('location:' . base_url() . 'user/form_pengajuan');
+				} else {
+					$config['upload_path'] = 'upload/cafe';
+					//restrict uploads to this mime types
 					$config['allowed_types'] = 'jpg|jpeg|png|mp3|pdf|docx';
 					$config['max_size'] = 999999999;
 					$config['file_name1'] = $_FILES['ktp']['name'];
 					$config['file_name3'] = $_FILES['foto']['name'];
 
 
-            //Load upload library and initialize configuration
+					//Load upload library and initialize configuration
 					$this->load->library('upload', $config);
 					$this->upload->initialize($config);
 
@@ -113,75 +115,99 @@ class User extends CI_Controller {
 					if ($query) {
 
 						$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">berhasil diajukan</div>');
-						header('location:'.base_url().'user/pengajuan/');
-					}else{
+						header('location:' . base_url() . 'user/pengajuan/');
+					} else {
 						$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">file harus gambar</div>');
-						header('location:'.base_url().'user/form_pengajuan');
-
+						header('location:' . base_url() . 'user/form_pengajuan');
 					}
 				}
-				
 			}
-		}
-		else{
+		} else {
 			$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">file harus diisi</div>');
-			header('location:'.base_url().'user/form_pengajuan');
+			header('location:' . base_url() . 'user/form_pengajuan');
 		}
-
 	}
+
+
 	public function list_cafe()
 	{
 		$data['cafe'] = $this->db->query("SELECT * FROM cafe c join kelurahan k on k.id_kelurahan = c.id_kelurahan join kecamatan kc on kc.id_kecamatan = k.id_kecamatan where c.status = 2")->result();
-		$data['nav'] ='List Cafe';
-        $this->load->view('user/template/header', $data);
+		$data['nav'] = 'List Cafe';
+		$this->load->view('user/template/header', $data);
 		$this->load->view('user/list_cafe');
-        $this->load->view('user/template/footer');
+		$this->load->view('user/template/footer');
 	}
-		public function detail_menu()
+	public function detail_menu()
 	{
-        $this->load->view('user/template/header');
+		$this->load->view('user/template/header');
 		$this->load->view('user/detail_menu');
-        $this->load->view('user/template/footer');
+		$this->load->view('user/template/footer');
 	}
-		public function menu()
+	public function menu($id_cafe = null, $id_komentar = null, $id_menu = null)
 	{
-		$data['nav'] ='Menu';
-		$data['menu'] = $this->db->query("SELECT * FROM menu")->result();
-        $this->load->view('user/template/header', $data);
+		$data['nav'] = 'menu';
+		$data['menu'] = $this->db->query("SELECT * from menu where id_cafe = '$id_cafe'")->result();
+		// $datakom['semuamenu'] = $this->db->query("SELECT * FROM menu s join cafe k on k.id_cafe = s.id_cafe where $id_cafe = '$id_cafe'")->result();
+		// $data['cafe'] = $this->db->query("SELECT * from cafe where id_cafe = '$id_cafe'")->row_array();
+		$data['koment'] = $this->db->query("SELECT * from komentar where id_cafe = '$id_cafe'")->result();
+		$data['dikomen'] = $this->db->query("SELECT * FROM komentar where id_cafe = '$id_cafe'")->row_array();
+		$data['jumlah'] = $this->db->query("SELECT count(id_komentar) as jumlah_koment from komentar where id_cafe = '$id_cafe'")->row_array();
+		$this->load->view('user/template/header', $data);
 		$this->load->view('user/menu');
-        $this->load->view('user/template/footer');
+		$this->load->view('user/template/footer');
 	}
 
-	public function getKelurahan(){
+	public function koment($id_cafe = null, $id_menu = null)
+	{
+
+		$data = [
+			'nama_komentar' => $this->input->post('nama'),
+			'email_komentar' => $this->input->post('email'),
+			'komen' => $this->input->post('komentar'),
+			'id_cafe' => $id_cafe
+
+		];
+
+		$query = $this->db->insert('komentar', $data);
+		if ($query) {
+
+			$this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">Komentar Terkirim</div>');
+			header('location:' . base_url() . 'user/menu/' . $id_cafe . '/' . $id_menu);
+		} else {
+			$this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">Komentar tidak terkirim</div>');
+			header('location:' . base_url() . 'user/menu/' . $id_cafe . '/' . $id_menu);
+		}
+	}
+
+
+	public function getKelurahan()
+	{
 		$id_kec = $this->input->post('kecamatan_id');
-		$output ='';
-		if($id_kec){
+		$output = '';
+		if ($id_kec) {
 			$data = $this->db->query("SELECT * FROM kelurahan where id_kecamatan = $id_kec")->result();
 
 			foreach ($data as $dt) {
 
-				$nama_kelurahan= $dt->nama_kelurahan;
+				$nama_kelurahan = $dt->nama_kelurahan;
 				$id_kelurahan = $dt->id_kelurahan;
 
-				$output .=' <option style="background-color: #000 !important;" value="'.$id_kelurahan.'">'.$nama_kelurahan.'</option>';
+				$output .= ' <option style="background-color: #000 !important;" value="' . $id_kelurahan . '">' . $nama_kelurahan . '</option>';
 			}
-			
+
 			echo json_encode($output);
 		}
 	}
 	public function viewmarker($nama_kecamatan)
 	{
 		$nama = $nama_kecamatan;
-		
-		if($nama == 'k'){
+
+		if ($nama == 'k') {
 			$data = $this->db->query("SELECT * FROM cafe s join kelurahan k on k.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = k.id_kecamatan where s.status = 2")->result();
-		}
-		else{
+		} else {
 			$data = $this->db->query("SELECT * FROM cafe s join kelurahan k on k.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = k.id_kecamatan where kc.id_kecamatan = $nama and s.status = 2")->result();
 		}
 
 		echo json_encode($data);
 	}
-
-	
 }
