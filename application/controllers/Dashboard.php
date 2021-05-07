@@ -15,12 +15,11 @@ class Dashboard extends CI_Controller {
 	}
 
 		public function index(){
-		// $data['cafe'] = $this->db->query("SELECT COUNT(id_cafe) as jumlah_cafe from cafe where id_sanggar = 2")->row_array();
-		// $data['pengajuan'] = $this->db->query("SELECT COUNT(id_sanggar) as jumlah_pengajuan from sanggar where id_sanggar != 2")->row_array();
-		// $data['kategori'] = $this->db->query("SELECT COUNT(id_kategori) as jumlah_kategori from kategori")->row_array();
-		// $data['postingan'] = $this->db->query("SELECT count(id_kegiatan) as jumlah_kegiatan from kegiatan")->row_array();
-		// $data['kecamatan'] = $this->db->query("SELECT count(id_kecamatan) as jumlah_kecamatan from kecamatan")->row_array();
-		// $data['kelurahan'] = $this->db->query("SELECT count(id_kelurahan) as jumlah_kelurahan from kelurahan")->row_array();
+		$data['cafe'] = $this->db->query("SELECT COUNT(id_cafe) as jumlah_cafe from cafe where id_cafe = 2")->row_array();
+		$data['pengajuan'] = $this->db->query("SELECT COUNT(id_cafe) as jumlah_pengajuan from cafe where id_cafe != 2")->row_array();
+		$data['menu'] = $this->db->query("SELECT count(id_menu) as jumlah_menu from menu where id_cafe != 1")->row_array();
+		$data['kecamatan'] = $this->db->query("SELECT count(id_kecamatan) as jumlah_kecamatan from kecamatan")->row_array();
+		$data['kelurahan'] = $this->db->query("SELECT count(id_kelurahan) as jumlah_kelurahan from kelurahan")->row_array();
 		$data['side'] = 'home';
 		$this->load->view('admin/template/header',$data);
 		$this->load->view('admin/dashboard');
@@ -44,6 +43,7 @@ class Dashboard extends CI_Controller {
 
 	public function detailCafe($id_cafe){
 		$data['side'] = 'detailCafe';
+		$data['menu'] = $this->db->query("SELECT count(id_menu) as jumlah_menu from menu where id_cafe = $id_cafe")->row_array();
 		$data['kelola'] = $this->db->query("SELECT * FROM cafe c join kelurahan k on k.id_kelurahan = c.id_kelurahan join kecamatan kc on k.id_kecamatan = kc.id_kecamatan where c.id_cafe = '$id_cafe'")->row_array();
 		$this->load->view('admin/template/header',$data);
 		$this->load->view('admin/detailCafe');

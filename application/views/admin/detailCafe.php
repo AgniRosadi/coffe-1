@@ -45,6 +45,7 @@
                                          <hr>
                                          <strong> Jumlah Menu</strong>
                                          <p class="text-muted">
+                                             <?php echo $menu['jumlah_menu'] ?>
 
                                          </p>
 
