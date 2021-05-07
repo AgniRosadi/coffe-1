@@ -17,6 +17,14 @@ class User extends CI_Controller
 		$this->load->view('user/home', $data);
 		$this->load->view('user/template/footer');
 	}
+	
+	public function info_lanjut(){
+		$data['nav'] = 'Info Lanjut';
+		$this->load->view('user/template/header', $data);
+		$this->load->view('user/infoLanjut');
+		$this->load->view('user/template/footer');
+	}
+	
 	public function pengajuan()
 	{
 		$data['nav'] = 'Pengajuan';
@@ -127,7 +135,21 @@ class User extends CI_Controller
 			header('location:' . base_url() . 'user/form_pengajuan');
 		}
 	}
+	
+	public function pengajuanDetail($id_otomatis,$nik){
+		$data['nav'] ='pengajuan';
+		$queryCafe = $this->db->query("SELECT * FROM cafe s join kelurahan kl on kl.id_kelurahan = s.id_kelurahan join kecamatan kc on kc.id_kecamatan = kl.id_kecamatan where s.id_otomatis = '$id_otomatis' and nik = '$nik'");
+		$data['pengajuan'] = $queryCafe->row_array();
 
+		if($queryCafe->num_rows() > 0){
+			$this->load->view('user/template/header',$data);
+			$this->load->view('user/pengajuanDetail');
+			$this->load->view('user/template/footer');
+		}else{
+			$this->session->set_flashdata('message', '<div class="alert alert-danger font-weight-bold" role="alert">data tidak ditemukan</div>');
+			header('location:'.base_url().'user/info_lanjut');
+		}
+	}
 
 	public function list_cafe()
 	{
@@ -147,6 +169,7 @@ class User extends CI_Controller
 	{
 		$data['nav'] = 'menu';
 		$data['menu'] = $this->db->query("SELECT * from menu where id_cafe = '$id_cafe'")->result();
+		$data['cafe'] = $this->db->query("SELECT * from cafe where id_cafe = $id_cafe")->row_array();
 		// $datakom['semuamenu'] = $this->db->query("SELECT * FROM menu s join cafe k on k.id_cafe = s.id_cafe where $id_cafe = '$id_cafe'")->result();
 		// $data['cafe'] = $this->db->query("SELECT * from cafe where id_cafe = '$id_cafe'")->row_array();
 		$data['koment'] = $this->db->query("SELECT * from komentar where id_cafe = '$id_cafe'")->result();

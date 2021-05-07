@@ -287,6 +287,22 @@ function addLatLng(event) {
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 <?php } ?>
+
+$(document).on('click', '#cari', function() {
+    var nomor = $("#nomor").val();
+    var nik = $("#nik").val();
+    if (nomor == '' || nik == '') {
+        alert('Isi nomor penyewa dan nik terlebih dahulu')
+    } else {
+        var url = "<?php echo base_url('user/pengajuanDetail/:nomor/:nik') ?>"
+        alert(nomor)
+        url = url.replace(':nomor', nomor)
+        url = url.replace(':nik', nik)
+        $('#cari').attr('href', url)
+        alert(url)
+    }
+
+})
 </script>
 </body>
 
